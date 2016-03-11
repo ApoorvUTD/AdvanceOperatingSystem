@@ -6,7 +6,6 @@ import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-//import Message.MessageType;
 
 public class Node implements Runnable {
 	
@@ -16,24 +15,27 @@ public class Node implements Runnable {
 	private BlockingQueue<Message> lockedqueue = new LinkedBlockingQueue<Message>(100);
 	Node[] quorum;
 	int[] quorumIds;
+	int totalQuorum;
 	List<Integer> quorumList = new ArrayList<Integer>() ;
 	boolean curLockingStatus = false;
 	boolean inCriticleSection = false;
 	boolean releaseSent = false;
 	boolean locked = false;
 	
-	
-	
-	
 
-	public boolean isSearchSent() {
-		return isSearchSent;
+	//constructor for initial setup
+	public Node(int nodeID,Node [] quorum,int totalQuorum){
+		this.nodeId = nodeID;
+		this.quorum = quorum;
+		this.totalQuorum = totalQuorum;
+		
 	}
 	
 
-	public void setSearchSent(boolean isSearchSent) {
-		this.isSearchSent = isSearchSent;
-	}
+	
+	
+
+	
 
 	public Node(int nodeId, int distFromSource, BlockingQueue<Message> queue,
 			boolean isAwake, int parent, Node[] children, Node[] neighbours) {
