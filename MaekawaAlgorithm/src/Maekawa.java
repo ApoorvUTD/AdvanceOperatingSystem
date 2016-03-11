@@ -5,7 +5,7 @@ public class Maekawa {
 	public static void csEnter(){
 		//enter in to critical section
 		
-	}
+	}///test
 	
 public static void csLeave(){
 		//leave the critical section
