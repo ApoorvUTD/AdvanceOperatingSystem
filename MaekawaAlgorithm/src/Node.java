@@ -30,6 +30,13 @@ public class Node implements Runnable {
 		this.totalQuorum = totalQuorum;
 		
 	}
+
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 	
