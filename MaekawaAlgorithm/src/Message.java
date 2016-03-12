@@ -1,18 +1,22 @@
-public class Message {
-	
-	public enum MessageType
-	{
-		REQUEST,RELEASE,INQUIRE,FAIL,LOCK;
-	}
-	
+import java.io.Serializable;
+
+public class Message implements Serializable {
+
 	int sourceId;
 	int destId;
 	int quorum;
 	MessageType msgType;
-	
-	
-	
-	
+
+
+	//constructor to pass details
+	public Message(int sourceId,int destID,MessageType msgType){
+
+		this.sourceId = sourceId;
+		this.destId = destID;
+		this.msgType = msgType;
+
+	}
+
 	public int getSourceId() {
 		return sourceId;
 	}
@@ -25,14 +29,7 @@ public class Message {
 	public void setDestId(int destId) {
 		this.destId = destId;
 	}
-	
-	public MessageType getMsgType() {
-		return msgType;
-	}
-	public void setMsgType(MessageType msgType) {
-		this.msgType = msgType;
-	}
-	
+
 
 	public static void sendMessage(Message message) {
 
@@ -41,8 +38,8 @@ public class Message {
 	@Override
 	public String toString() {
 		return "Messege [sourceId=" + sourceId + ", destId=" + destId
-				+ ", distFromRoot="  + ", msgType=" + msgType
-				+ "]";
+				+ ", distFromRoot="  + ", msgType=" + 
+				"]";
 	}
 
 

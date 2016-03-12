@@ -1,14 +1,15 @@
 
 public class Maekawa {
-    //AD COMMENTS
+	//AD COMMENTS
 	//blocking queue
-	public static void csEnter(){
+	Node node;
+	public static void csEnter(int nodeID){
 		//enter in to critical section
-		
-	}///testing to push to the repository
+
+	}
 	
-public static void csLeave(){
+	public static void csLeave(){
 		//leave the critical section
-		
+
 	}
 }
