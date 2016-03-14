@@ -1,19 +1,11 @@
 #!/bin/bash
-
+#USAGE: ./launcher.sh <java_file_to_compile> <config_file> <netid>
 PROG=Process
 SOURCE=$PROG".java"
 CONFIG=$2
 netid=$3
 
-#clear a custom debug file b4 each run/test
-echo -e "" > debug.txt
-
-#Something the TA is making us do
-config_file_name=$(echo $CONFIG | rev | cut -f1 -d"/" | rev | cut -f1 -d".") #without extension
-
-# extract the important lines from the config file. the ones with no '#' or empty lines
 sed -e "s/#.*//" $CONFIG | sed -e "/^\s*$/d" > temp
-# insert a new line to EOF # necessary for the while loop
 echo  >> temp
 
 node_count=0
@@ -60,10 +52,15 @@ do
   	fi
   	let current_line+=1
 done < temp
+
+#COMPILE ONLY ONCE. AND WAIT FOR 2s to reflect in other dc machines
 PROGRAM=$1".java"
 COMPILE="javac -sourcepath src src/$PROGRAM -d bin"
 $COMPILE
 sleep 2s
+
+
+
 # iterate through the date collected above and execute on the remote servers
 for node_id in $(seq 0 $(expr $node_count - 1))
 do
@@ -75,7 +72,3 @@ do
 	'$sendMinDelay' '$snapshotDelay' '$maxNumber' '$config_file_name' " &
       # echo $host
 done
-
-#sample output
-#mji120030@dc45 java Project2 0 '0 dc45 19999#1 dc44 19998#2 dc43 19997#3 dc42 19996#4 dc41 19995#5 dc40 19898#' \
-#'1 3' '6' '10' 	'100' '2000' '15' 'config' 

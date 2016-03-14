@@ -1,29 +1,8 @@
 #!/bin/bash
-
-
-# Change this to your netid
+#USAGE: ./cleanup.sh <config_file> <net_id>
 netid=$2
-
-#
-# Root directory of your project
 PROJDIR=./
-
-#
-# This assumes your config file is named "config.txt"
-# and is located in your project directory
-#
 CONFIG=$1
-
-#
-# Directory your java classes are in
-#
-BINDIR=$PROJDIR/bin
-
-#
-# Your main project class
-#
-PROG=Project1
-
 n=1
 
 cat $CONFIG | sed -e "s/#.*//" | sed -e "/^\s*$/d" |
