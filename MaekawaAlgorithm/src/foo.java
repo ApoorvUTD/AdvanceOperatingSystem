@@ -6,6 +6,8 @@ import java.nio.file.StandardOpenOption;
 public class foo {
     public static void main() throws Exception{
     	String hostname = InetAddress.getLocalHost().getHostName();
-    	Files.write(Paths.get("foo.out"), ("PRINTING BY " + hostname).getBytes(), StandardOpenOption.APPEND);
+    	Files.write(Paths.get("foo.out"), ("ENTERING " + hostname + "\n").getBytes(), StandardOpenOption.APPEND);
+    	Thread.sleep(5000);
+    	Files.write(Paths.get("foo.out"),("LEAVING " + hostname + "\n").getBytes(),StandardOpenOption.APPEND);
     }
 }
