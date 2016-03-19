@@ -21,17 +21,44 @@ public class Node implements Runnable {
 	boolean inCriticleSection = false;
 	boolean releaseSent = false;
 	boolean locked = false;
+	boolean inquireMsgSent = false;
+	boolean inquireMsgRecieved = false;
+	boolean isfulfilled = false;
     int ts;//time stamp
+    int sequenceNumber;
+    int request,locked_failed,inquire,relinquish,release;
+    
+    //*********************************************************//
+    
+    //Counter values as per the message received
+    public void counterValuesStatus(MessageType message){
+    	if(message == MessageType.REQUEST){
+    		this.request=this.request+1;
+    	}
+    	if(message == MessageType.INQUIRE){
+    		this.inquire=this.inquire+1;
+    	}
+    	if(message == MessageType.RELINQUISH){
+    		this.relinquish=this.relinquish+1;
+    	}
+    	if(message == MessageType.RELEASE){
+    		this.release=this.release+1;
+    	}
+    	if(message == MessageType.LOCKED || message == MessageType.FAILED){
+    		this.locked_failed=this.locked_failed+1;
+    	}
+    	
+    }
 
 	//constructor for initial setup
-	public Node(int nodeID,Node [] quorum,int totalQuorum){
+	public Node(int nodeID,int SequenceNumber,boolean inquireMsgSent){
 		this.nodeId = nodeID;
 		this.quorum = quorum;
 		this.totalQuorum = totalQuorum;
 
 	}
 	
-	//Adding another constructor 
+	//Adding another constructor if required
 	public Node(int nodeID,int[] quorumIDs){
 	this.nodeId = nodeId;
 	this.quorumIds=quorumIds;
