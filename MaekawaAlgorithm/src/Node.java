@@ -10,13 +10,17 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Node implements Runnable {
 
 	public int nodeId;
+	int ServerPort;
+	public String nodeAddress;
+	public ArrayList<Node> IPAddressMap;
 	private BlockingQueue<Message> failedqueue = new LinkedBlockingQueue<Message>(100);
 	private BlockingQueue<Message> waitingqueue = new LinkedBlockingQueue<Message>(100);
 	private BlockingQueue<Message> lockedqueue = new LinkedBlockingQueue<Message>(100);
 	Node[] quorum;
 	int[] quorumIds;
 	int totalQuorum;
-	List<Integer> quorumList = new ArrayList<Integer>() ;
+	public ArrayList<int[]> quorumMemberRequest;
+	List<Integer> quorumList ;
 	boolean curLockingStatus = false;
 	boolean inCriticleSection = false;
 	boolean releaseSent = false;
@@ -27,6 +31,10 @@ public class Node implements Runnable {
     int ts;//time stamp
     int sequenceNumber;
     int request,locked_failed,inquire,relinquish,release;
+    SctpChannel Channel;
+   public String totalMessagestoSend;
+   public int totalNodeCount;
+    
     
     //*********************************************************//
     
@@ -49,6 +57,25 @@ public class Node implements Runnable {
     	}
     	
     }
+    
+    
+    
+    public Node(int nodeId) {
+		super();
+		this.nodeId = nodeId;
+		
+	}
+
+
+
+	//constructor to be used in read file 
+    public Node(int nodeId,String nodeAddress ,SctpChannel Channel,int totalMessagestoSend) {
+		super();
+		this.nodeId = nodeId;
+		this.nodeAddress=nodeAddress;
+		this.Channel = Channel;
+		this.totalMessagestoSend=totalMessagestoSend;
+	}
 
 	//constructor for initial setup
 	public Node(int nodeID,int SequenceNumber,boolean inquireMsgSent){
@@ -57,6 +84,7 @@ public class Node implements Runnable {
 		this.totalQuorum = totalQuorum;
 
 	}
+	
 	
 	//Adding another constructor if required
 	public Node(int nodeID,int[] quorumIDs){
