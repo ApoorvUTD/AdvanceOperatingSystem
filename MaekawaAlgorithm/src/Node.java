@@ -14,7 +14,7 @@ public class Node implements Runnable {
 	public String nodeAddress;
 	public ArrayList<Node> IPAddressMap;
 	private BlockingQueue<Message> failedqueue = new LinkedBlockingQueue<Message>(100);
-	private BlockingQueue<Message> waitingqueue = new LinkedBlockingQueue<Message>(100);
+	public ArrayList<Node> waitingqueue = new ArrayList<Node>(100);
 	private BlockingQueue<Message> lockedqueue = new LinkedBlockingQueue<Message>(100);
 	Node[] quorum;
 	int[] quorumIds;
@@ -58,8 +58,33 @@ public class Node implements Runnable {
     	
     }
     
+    //***************************************************************??
+    public synchronized void sortWaitQueue(){
+		boolean swapped = true;
+	      int j = 0;
+	      Node node;
+	      while (swapped) {
+	            swapped = false;
+	            j++;
+	            for (int i = 0; i < waitingqueue.size()-j; i++) {                                       
+	                  if ((waitingqueue.get(i).nodeId > waitingqueue.get(i+1).nodeId) && (waitingqueue.get(i).sequenceNumber == waitingqueue.get(i+1).sequenceNumber)) {                          
+	                        node = (waitingqueue.get(i));
+	                        waitingqueue.set(i, waitingqueue.get(i+1));
+	                        waitingqueue.set(i+1, node);
+	                        swapped = true;
+	                  }
+	                  if ((waitingqueue.get(i).sequenceNumber > waitingqueue.get(i+1).sequenceNumber)) {                          
+	                        node = (waitingqueue.get(i));
+	                        waitingqueue.set(i, waitingqueue.get(i+1));
+	                        waitingqueue.set(i+1, node);
+	                        swapped = true;
+	                  }
+	            }                
+	      }
+	}
     
-    
+    //***************************************************************??
+
     public Node(int nodeId) {
 		super();
 		this.nodeId = nodeId;
